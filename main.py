@@ -27,6 +27,7 @@ canvas.create_image(
     anchor="nw"
 )
 
+
 canvas.create_text(
     600,
     30,
@@ -35,13 +36,16 @@ canvas.create_text(
     font=("Poppins", 16, "bold")
 )
 
+
 def show_text_page():
     image_page.hide()
     text_page.show()
 
+
 def show_image_page():
     text_page.hide()
     image_page.show()
+
 
 btn_text = tk.Button(
     root,
@@ -50,6 +54,8 @@ btn_text = tk.Button(
     height=2,
     command=show_text_page
 )
+
+
 canvas.create_window(
     500,
     100,

@@ -1,14 +1,20 @@
 import tkinter as tk
 
-
 class textPage:
     def __init__(self, canvas):
         self.canvas = canvas
         self.elements = []
 
-        # Stack
         self.undo_stack = [""]
         self.redo_stack = []
+
+        self.title_id = self.canvas.create_text(
+            600, 180,
+            text="TEXT UNDO REDO PAGE",
+            font=("Arial", 16, "bold"),
+            fill="white"
+        )
+        self.elements.append(self.title_id)
 
         self.text_area = tk.Text(
             self.canvas.master,
@@ -47,7 +53,6 @@ class textPage:
         )
         self.elements.append(self.redo_window)
 
-        # Simpan setiap perubahan karakter
         self.text_area.bind("<KeyRelease>", self.save_state)
 
     def save_state(self, event=None):

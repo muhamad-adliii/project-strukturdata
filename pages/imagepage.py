@@ -2,21 +2,20 @@ import tkinter as tk
 from tkinter import filedialog
 from PIL import Image, ImageTk
 
+
 class ImagePage:
     def __init__(self, canvas):
         self.canvas = canvas
         self.elements = []
 
-        # --- LOGIKA STACK ---
         self.undo_stack = []
         self.redo_stack = []
         self.current_image_path = None
-        self.photo = None # Referensi agar gambar tidak terhapus Garbage Collector
+        self.photo = None
 
-        # --- UI ELEMENTS ---
         self.title_id = self.canvas.create_text(
-            600, 180, # Sesuaikan koordinat X agar di tengah
-            # text="IMAGE UNDO REDO PAGE",
+            600, 180,
+            text="IMAGE UNDO REDO PAGE",
             font=("Arial", 16, "bold"),
             fill="white"
         )
@@ -39,7 +38,7 @@ class ImagePage:
         self.image_label.pack(expand=True, fill="both")
 
         self.image_window = self.canvas.create_window(
-            600, 320, # Sesuaikan koordinat X agar di tengah
+            600, 320,
             window=self.image_frame,
             width=500,
             height=250
@@ -53,7 +52,7 @@ class ImagePage:
             command=self.add_image
         )
         self.add_window = self.canvas.create_window(
-            450, 480, # Sesuaikan posisi
+            450, 480,
             window=self.add_btn
         )
         self.elements.append(self.add_window)
@@ -65,11 +64,10 @@ class ImagePage:
             command=self.undo
         )
         self.undo_window = self.canvas.create_window(
-            600, 480, # Sesuaikan posisi
+            600, 480,
             window=self.undo_btn
         )
         self.elements.append(self.undo_window)
-
         self.redo_btn = tk.Button(
             self.canvas.master,
             text="Redo",
@@ -77,23 +75,21 @@ class ImagePage:
             command=self.redo
         )
         self.redo_window = self.canvas.create_window(
-            750, 480, # Sesuaikan posisi
+            750, 480,
             window=self.redo_btn
         )
         self.elements.append(self.redo_window)
 
         self.hide()
 
-    # --- FUNGSI STACK ---
     def add_image(self):
         file_path = filedialog.askopenfilename(
             title="Select Image",
             filetypes=[("Image Files", "*.png *.jpg *.jpeg *.gif")]
         )
         if file_path:
-            # Push state sekarang (walaupun kosong/None) ke undo_stack
             self.undo_stack.append(self.current_image_path)
-            self.redo_stack.clear() # Aksi baru, hapus masa depan (redo)
+            self.redo_stack.clear()
             self.current_image_path = file_path
             self.display_image(self.current_image_path)
 
@@ -119,11 +115,9 @@ class ImagePage:
             except Exception as e:
                 print(f"Error loading image: {e}")
         else:
-            # Kembali ke state kosong
             self.image_label.config(image="", text="IMAGE AREA")
             self.photo = None
 
-    # --- FUNGSI TAMPILAN ---
     def show(self):
         for el in self.elements:
             self.canvas.itemconfigure(el, state="normal")
